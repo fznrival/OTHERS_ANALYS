@@ -151,10 +151,10 @@ class OthersAnalyzer:
                 bias['key_levels']['support'] = nearest_support.top
                 bias['reasoning'].append(f'Bullish order block support at {nearest_support.top:.2f}')
             
-            # Find resistance (sell-side liquidity above)
-            sell_side_liq = [z for z in active_liquidity if z.type == LiquidityType.BUY_SIDE]
-            if sell_side_liq:
-                nearest_resistance = min(sell_side_liq, key=lambda x: abs(x.price - self.data.iloc[-1]['close']))
+            # Find resistance (buy-side liquidity above)
+            buy_side_liq = [z for z in active_liquidity if z.type == LiquidityType.BUY_SIDE]
+            if buy_side_liq:
+                nearest_resistance = min(buy_side_liq, key=lambda x: abs(x.price - self.data.iloc[-1]['close']))
                 bias['key_levels']['resistance'] = nearest_resistance.price
                 bias['reasoning'].append(f'Buy-side liquidity target at {nearest_resistance.price:.2f}')
         
@@ -170,10 +170,10 @@ class OthersAnalyzer:
                 bias['key_levels']['resistance'] = nearest_resistance.bottom
                 bias['reasoning'].append(f'Bearish order block resistance at {nearest_resistance.bottom:.2f}')
             
-            # Find support (buy-side liquidity below)
-            buy_side_liq = [z for z in active_liquidity if z.type == LiquidityType.SELL_SIDE]
-            if buy_side_liq:
-                nearest_support = min(buy_side_liq, key=lambda x: abs(x.price - self.data.iloc[-1]['close']))
+            # Find support (sell-side liquidity below)
+            sell_side_liq = [z for z in active_liquidity if z.type == LiquidityType.SELL_SIDE]
+            if sell_side_liq:
+                nearest_support = min(sell_side_liq, key=lambda x: abs(x.price - self.data.iloc[-1]['close']))
                 bias['key_levels']['support'] = nearest_support.price
                 bias['reasoning'].append(f'Sell-side liquidity target at {nearest_support.price:.2f}')
         
